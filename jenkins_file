@@ -1,0 +1,44 @@
+ipeline {
+  agent { node { label 'slave01' } }
+
+   stages {
+		steps {
+          checkout scm
+        } 
+      
+      stage('C') {
+	  when { anyOf {
+				environment name: 'LANGUAGE', value: 'C'
+				environment name: 'LANGUAGE', value: 'All'
+				}
+			}
+
+         steps {
+            echo 'Build process..'            
+            sh '''
+                cd "${WORKSPACE}/scripts/"
+                chmod 755 *.sh
+            '''
+         }
+      }      
+        stage("Python") {
+            steps {
+                sh "printenv"
+            }
+        }    
+      stage('Bash') {
+	  when { anyOf {
+                environment name: 'LANGUAGE', value: 'Python'
+                environment name: 'LANGUAGE', value: 'All'
+            }
+		}
+         steps {
+            echo 'Test process..'
+            sh '''
+              echo "Testing input string $PARAM" 
+              cd "${WORKSPACE}/scripts"
+              ./reverse.sh $PARAM
+              ./reverse.sh $PARAM > results
+            '''
+         }
+      }
