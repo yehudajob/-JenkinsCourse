@@ -15,8 +15,8 @@ pipeline {
 				environment name: 'LANGUAGE', value: 'All'
 			}
 	        }
-			step {
-				echo 'hello'
+			steps {
+				echo '1'
 			}
 		  }
 		    stage('Python') {
@@ -25,6 +25,9 @@ pipeline {
 				environment name: 'LANGUAGE', value: 'All'
 			}
 	        }
+			steps {
+				echo '2'
+			}
 		  }
 			stage('Bash') {
 	  		when { anyOf {
@@ -32,6 +35,9 @@ pipeline {
 				environment name: 'LANGUAGE', value: 'All'
 			}
 	        }
+			steps {
+				echo '3'
+			}
 		  }
 	 }
 	
