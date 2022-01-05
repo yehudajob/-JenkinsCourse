@@ -2,10 +2,11 @@ pipeline {
   agent { node { label 'slave01' } }
 
    stages {
-   	    stage('Clone Sources')
+   	    stage('Clone Sources') {
 		steps {
           	   checkout scm
                        } 
+		       }
            }
       
       		stage('C') {
@@ -14,6 +15,9 @@ pipeline {
 				environment name: 'LANGUAGE', value: 'All'
 			}
 	        }
+			step {
+				echo 'hello'
+			}
 		  }
 		    stage('Python') {
 	  		when { anyOf {
